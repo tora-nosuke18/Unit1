@@ -1,0 +1,28 @@
+<launch>
+    <arg name="pause" default="true"/>
+    
+    <include file="$(find gazebo_ros)/launch/gzserver.launch.py">
+        <arg name="pause" value="$(arg pause)"/>
+    </include>
+
+    <include file="$(find gazebo_ros)/launch/gzclient.launch.py"/>
+
+    <node
+        pkg="robot_state_publisher"
+        type="robot_state_publisher"
+        name="robot_state_publisher">
+        <param name="robot_description" command="$(find xacro)/xacro '$(find unit1_description)/urdf/unit1.xacro'"/>
+    </node>
+
+    <node
+        pkg="joint_state_publisher"
+        type="joint_state_publisher"
+        name="joint_state_publisher"/>
+
+    <node
+        pkg="gazebo_ros"
+        type="spawn_entity.py"
+        name="urdf_spawner"
+        output="screen"
+        args="-entity unit1 -topic robot_description"/>
+</launch>
