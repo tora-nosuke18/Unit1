@@ -2,7 +2,6 @@ import os
 from setuptools import find_packages, setup
 from glob import glob
 
-
 package_name = 'send_vel'
 
 setup(
@@ -13,7 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'config'), glob('config/*.yaml'))
+        (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
 
     ],
     install_requires=['setuptools'],
@@ -26,6 +25,9 @@ setup(
     entry_points={
         'console_scripts': [
             'rover = send_vel.rover:main',
+            'odom_calc = send_vel.odom_calc:main',
+            'hand_twist = send_vel.hand_twist:main'
+
         ],
     },
 )

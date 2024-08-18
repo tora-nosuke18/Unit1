@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import math
 from math import sin, cos, pi
 
@@ -13,7 +12,7 @@ from geometry_msgs.msg import TransformStamped
 
 class OdometryCalc(Node):
     def __init__(self):
-        super().__init__('odometry_calc')
+        super().__init__('odom_calc')
 
         self.r = 0.055  # 車輪半径
         self.TREAD = 1  # トレッド幅

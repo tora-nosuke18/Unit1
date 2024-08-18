@@ -1,0 +1,18 @@
+<launch>
+    <!-- 速度指令の送信 -->
+  <node pkg="teleop_twist_keyboard" exec="teleop_twist_keyboard"/>       <!-- キーボード操作 -->
+  <include file="$(find-pkg-share teleop_twist_joy)/launch/teleop-launch.py"/>    <!-- ジョイコン操作 -->
+  <node pkg="send_vel" exec="hand_twist" name="hand_twist"/>             <!-- 手信号 -->
+
+
+    <!-- 速度指令から各モーターへ目標速度を送信 -->
+  <node pkg="send_vel" exec="rover" name="twist_rover"> 
+    <param name="tread" value="0.5"/>
+  </node>
+
+
+    <!-- 解析 -->
+  <include file="$(find-pkg-share bno055)/launch/bno055.launch.py"/>              <!-- IMUの取得 -->
+  <node pkg="send_vel" exec="odom_calc" name="odom_calc"/>              <!-- ホイールオドメトリの計算 -->
+
+</launch>
