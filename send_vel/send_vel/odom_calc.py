@@ -5,7 +5,7 @@ import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Pose, Quaternion, Twist, Vector3
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64MultiArray
 from tf_transformations import quaternion_from_euler
 from tf2_ros import TransformBroadcaster
 from geometry_msgs.msg import TransformStamped
@@ -35,18 +35,16 @@ class OdometryCalc(Node):
 
         self.odom_broadcaster = TransformBroadcaster(self)
 
-        self.create_subscription(Float64, '/C620/left_wheel_vel', self.callback_l, 10)
-        self.create_subscription(Float64, '/C620/right_wheel_vel', self.callback_r, 10)
+        self.create_subscription(Float64MultiArray, '/C620/actual_rad', self.enc_cb, 10)
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
 
         self.timer = self.create_timer(0.1, self.publish_odom)  # 10Hzで実行
 
-    def callback_l(self, msg):
+    def ecn_cb(self, msg):
         # エンコーダ値を取得
         self.get_logger().info(f"l {msg.data:.3f}")
         self.current_left_enc = msg.data  # 左エンコーダ値
-
-    def callback_r(self, msg):
+        
         # エンコーダ値を取得
         self.get_logger().info(f"r {msg.data:.3f}")
         self.current_right_enc = msg.data  # 右エンコーダ値

@@ -26,7 +26,8 @@ setup(
         'console_scripts': [
             'rover = send_vel.rover:main',
             'odom_calc = send_vel.odom_calc:main',
-            'hand_twist = send_vel.hand_twist:main'
+            'hand_twist = send_vel.hand_twist:main',
+            'hand_twist_takeru = send_vel.hand_twist_takeru:main'
 
         ],
     },
